@@ -1,0 +1,441 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.9 (swiftlang-5.9.0.128.108 clang-1500.0.40.1)
+// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name SDKForms
+// swift-module-flags-ignorable-private: -package-name sdkforms
+import AudioToolbox
+import DeveloperToolsSupport
+import Foundation
+import Foundation/*.Bundle*/
+import Foundation/*.ProcessInfo*/
+import Foundation/*.URL*/
+import PassKit
+import SDKCore
+import Swift
+import SwiftUI
+import UIKit
+import WebKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public struct FormsCardInfo : Swift.Codable {
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public protocol CardInfoProvider {
+  func resolve(bin: Swift.String) throws -> SDKForms.FormsCardInfo
+}
+@objc final public class RemoteKeyProvider : ObjectiveC.NSObject, SDKForms.KeyProvider {
+  public init(url: Swift.String)
+  final public func provideKey() throws -> SDKCore.Key
+  @objc deinit
+}
+public protocol KeyProvider {
+  func provideKey() throws -> SDKCore.Key
+}
+extension Foundation.Bundle {
+  public static var sdkFormsBundle: Foundation.Bundle {
+    get
+  }
+}
+extension Swift.String {
+  public var localized: Swift.String {
+    get
+  }
+  public static func cardDetailsTitle() -> Swift.String
+  public static func cardTitle() -> Swift.String
+  public static func cardHolder() -> Swift.String
+  public static func cardholderPlaceholder() -> Swift.String
+  public static func cardNumberTitle() -> Swift.String
+  public static func mmYY() -> Swift.String
+  public static func cvcTitle() -> Swift.String
+  public static func doneButtonTitle() -> Swift.String
+  public static func scanBackButtonTitle() -> Swift.String
+  public static func expiryTitle() -> Swift.String
+  public static func cvcDescription() -> Swift.String
+  public static func incorrectLength() -> Swift.String
+  public static func incorrectCardNumber() -> Swift.String
+  public static func incorrectExpiry() -> Swift.String
+  public static func incorrectCvc() -> Swift.String
+  public static func incorrectCardholder() -> Swift.String
+  public static func switchViewTitle() -> Swift.String
+  public static func newCard() -> Swift.String
+  public static func editTitle() -> Swift.String
+  public static func saveTitle() -> Swift.String
+  public static func payByCard() -> Swift.String
+  public static func addCard() -> Swift.String
+  public static func allPaymentMethods() -> Swift.String
+  public static func payment() -> Swift.String
+  public static func cardNumber() -> Swift.String
+  public static func pay() -> Swift.String
+  public static func allCards() -> Swift.String
+  public static func removeBindingAlertTitle() -> Swift.String
+  public static func removeBindingAlertDescription() -> Swift.String
+  public static func cancelTitle() -> Swift.String
+  public static func removeTitle() -> Swift.String
+  public static func paymentMethod() -> Swift.String
+}
+extension UIKit.UIColor {
+  public static var systemActiveBorderTextColor: UIKit.UIColor {
+    get
+  }
+  public static var systemBottomSheetBackgroundColor: UIKit.UIColor {
+    get
+  }
+  public static var systemColorButtonBackgroundColor: UIKit.UIColor {
+    get
+  }
+  public static var systemColorButtonTextColor: UIKit.UIColor {
+    get
+  }
+  public static var systemColorLabelColor: UIKit.UIColor {
+    get
+  }
+  public static var systemColorSeparatarColor: UIKit.UIColor {
+    get
+  }
+  public static var systemColorTableBackgroundColor: UIKit.UIColor {
+    get
+  }
+}
+extension UIKit.UIFont {
+  public static let sfPro13: UIKit.UIFont?
+  public static let sfPro15: UIKit.UIFont?
+  public static let sfPro18: UIKit.UIFont?
+  public static let menloBold12: UIKit.UIFont?
+  public static let menlo17: UIKit.UIFont?
+  public static let systemBold15: UIKit.UIFont
+  public static let systemBold17: UIKit.UIFont
+  public static let systemBold20: UIKit.UIFont
+}
+extension UIKit.UIImage {
+  public static let visaVerifyImage: UIKit.UIImage?
+  public static let jcbVerifyImage: UIKit.UIImage?
+  public static let pciVerifyImage: UIKit.UIImage?
+  public static let verifyMastercardImage: UIKit.UIImage?
+  public static let bankLogoUnknownImage: UIKit.UIImage?
+}
+public struct ApplePayPaymentConfig {
+  public struct SummaryItem {
+    public init(label: Swift.String, amount: Swift.Double)
+  }
+  public init(merchantId: Swift.String, currencyCode: Swift.String, countryCode: Swift.String, supportedNetworks: [PassKit.PKPaymentNetwork], items: [SDKForms.ApplePayPaymentConfig.SummaryItem])
+}
+public enum CameraScannerOptions : Swift.Codable {
+  case enabled
+  case disabled
+  public static func == (a: SDKForms.CameraScannerOptions, b: SDKForms.CameraScannerOptions) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct Card : Swift.Codable, Swift.Hashable {
+  public let pan: Swift.String
+  public let bindingId: Swift.String
+  public let expiryDate: SDKCore.ExpiryDate?
+  public init(pan: Swift.String, bindingId: Swift.String, expiryDate: SDKCore.ExpiryDate? = nil)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: SDKForms.Card, b: SDKForms.Card) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum CardDeleteOptions : Swift.Codable {
+  case yesDelete
+  case noDelete
+  public static func == (a: SDKForms.CardDeleteOptions, b: SDKForms.CardDeleteOptions) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum CardSaveOptions : Swift.Codable {
+  case hide
+  case yesByDefault
+  case noByDefault
+  public static func == (a: SDKForms.CardSaveOptions, b: SDKForms.CardSaveOptions) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct CryptogramData : Swift.Codable {
+  public let status: SDKForms.PaymentDataStatus
+  public let seToken: Swift.String
+  public let info: (any SDKForms.PaymentInfo)?
+  public var deletedCardList: Swift.Set<SDKForms.Card>
+  public init(status: SDKForms.PaymentDataStatus, seToken: Swift.String, info: (any SDKForms.PaymentInfo)?, deletedCardList: Swift.Set<SDKForms.Card>)
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public enum HolderInputOptions : Swift.Codable {
+  case hide
+  case visible
+  public static func == (a: SDKForms.HolderInputOptions, b: SDKForms.HolderInputOptions) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct PaymentConfig : Swift.Codable {
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum PaymentDataStatus : Swift.Codable {
+  case canceled
+  case succeeded
+  public static func == (a: SDKForms.PaymentDataStatus, b: SDKForms.PaymentDataStatus) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public protocol PaymentInfo : Swift.Decodable, Swift.Encodable {
+}
+public struct PaymentInfoApplePay : SDKForms.PaymentInfo {
+  public let order: Swift.String
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct PaymentInfoBindCard : SDKForms.PaymentInfo {
+  public var order: Swift.String
+  public let bindingId: Swift.String
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct PaymentInfoNewCard : SDKForms.PaymentInfo {
+  public var order: Swift.String
+  public let saveCard: Swift.Bool
+  public let holder: Swift.String
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SDKConfig {
+}
+public enum Theme : Swift.Codable, Swift.Equatable {
+  case light
+  case dark
+  case system
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: SDKForms.Theme, b: SDKForms.Theme) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+final public class PaymentConfigBuilder {
+  public init(order: Swift.String = "")
+  final public func buttonText(buttonText: Swift.String) -> SDKForms.PaymentConfigBuilder
+  final public func cards(cards: Swift.Set<SDKForms.Card>) -> SDKForms.PaymentConfigBuilder
+  final public func cardSaveOptions(options: SDKForms.CardSaveOptions) -> SDKForms.PaymentConfigBuilder
+  final public func cameraScannerOptions(options: SDKForms.CameraScannerOptions) -> SDKForms.PaymentConfigBuilder
+  final public func theme(theme: SDKForms.Theme) -> SDKForms.PaymentConfigBuilder
+  final public func holderInputOptions(options: SDKForms.HolderInputOptions) -> SDKForms.PaymentConfigBuilder
+  final public func uuid(uuid: Swift.String) -> SDKForms.PaymentConfigBuilder
+  final public func timestamp(timestamp: Swift.Int64) -> SDKForms.PaymentConfigBuilder
+  final public func locale(locale: SDKForms.Locales) -> SDKForms.PaymentConfigBuilder
+  final public func bindingCVCRequired(required: Swift.Bool) -> SDKForms.PaymentConfigBuilder
+  final public func cardDeleteOptions(options: SDKForms.CardDeleteOptions) -> SDKForms.PaymentConfigBuilder
+  final public func registeredFrom(registeredFrom: SDKCore.MSDKRegisteredFrom) -> SDKForms.PaymentConfigBuilder
+  final public func displayApplePay(isDisplay: Swift.Bool) -> SDKForms.PaymentConfigBuilder
+  final public func editingBindingsIsEnabled(_ isEnabled: Swift.Bool = false) -> SDKForms.PaymentConfigBuilder
+  final public func build() -> SDKForms.PaymentConfig
+  @objc deinit
+}
+#if compiler(>=5.3) && $PrimaryAssociatedTypes2
+public protocol ResultCryptogramCallback<T> {
+  associatedtype T
+  func onSuccess(result: Self.T)
+  func onFail(error: SDKForms.SDKException)
+}
+#else
+public protocol ResultCryptogramCallback {
+  associatedtype T
+  func onSuccess(result: Self.T)
+  func onFail(error: SDKForms.SDKException)
+}
+#endif
+#if compiler(>=5.3) && $PrimaryAssociatedTypes2
+public protocol ResultPaymentCallback<T> : AnyObject {
+  associatedtype T
+  func onResult(result: Self.T)
+}
+#else
+public protocol ResultPaymentCallback : AnyObject {
+  associatedtype T
+  func onResult(result: Self.T)
+}
+#endif
+final public class SDKConfigBuilder {
+  public init()
+  final public func keyProviderUrl(providerUrl: Swift.String) throws -> SDKForms.SDKConfigBuilder
+  final public func keyProvider(provider: any SDKForms.KeyProvider) throws -> SDKForms.SDKConfigBuilder
+  final public func cardInfoProvider(provider: any SDKForms.CardInfoProvider) -> SDKForms.SDKConfigBuilder
+  final public func build() throws -> SDKForms.SDKConfig
+  @objc deinit
+}
+open class SDKException : Swift.Error {
+  public var message: Swift.String?
+  public var cause: (any Swift.Error)?
+  public init(message: Swift.String? = nil, cause: (any Swift.Error)? = nil)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers final public class SdkForms : ObjectiveC.NSObject {
+  public static let shared: SDKForms.SdkForms
+  public static func initialize(sdkConfig: SDKForms.SDKConfig) -> SDKForms.SdkForms
+  public static func getSDKVersion() -> Swift.String
+  final public func cryptogram(navigationController: UIKit.UINavigationController, config: SDKForms.PaymentConfig, callbackHandler: any SDKForms.ResultCryptogramCallback<SDKForms.CryptogramData>)
+  final public func cryptogramWithBottomSheet(parent: UIKit.UINavigationController, config: SDKForms.PaymentConfig, applePayPaymentConfig: SDKForms.ApplePayPaymentConfig?, callbackHandler: (any SDKForms.ResultCryptogramCallback<SDKForms.CryptogramData>))
+  @objc deinit
+}
+extension SDKForms.SdkForms : PassKit.PKPaymentAuthorizationViewControllerDelegate {
+  @objc final public func paymentAuthorizationViewControllerDidFinish(_ controller: PassKit.PKPaymentAuthorizationViewController)
+  @objc final public func paymentAuthorizationViewController(_ controller: PassKit.PKPaymentAuthorizationViewController, didAuthorizePayment payment: PassKit.PKPayment, handler completion: @escaping (PassKit.PKPaymentAuthorizationResult) -> Swift.Void)
+}
+public enum Locales : Swift.String, Swift.Codable {
+  case en
+  case de
+  case fr
+  case es
+  case ru
+  case uk
+  public init(stringValue: Swift.String)
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) final public class CardListViewController : SDKForms.FormsBaseViewController {
+  @_Concurrency.MainActor(unsafe) convenience public init(paymentConfig: SDKForms.PaymentConfig?, callbackHandler: (any SDKForms.ResultCryptogramCallback<SDKForms.CryptogramData>)?)
+  @_Concurrency.MainActor(unsafe) @objc override final public func loadView()
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class FormsBaseViewController : UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) final public class NewCardViewController : SDKForms.FormsBaseViewController {
+  @_Concurrency.MainActor(unsafe) convenience public init(paymentConfig: SDKForms.PaymentConfig?, callbackHandler: (any SDKForms.ResultCryptogramCallback<SDKForms.CryptogramData>)?)
+  @_Concurrency.MainActor(unsafe) @objc override final public func loadView()
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+public protocol BottomSheetPresentable : UIKit.UIViewController, UIKit.UIViewControllerTransitioningDelegate {
+  var driver: SDKForms.BottomSheetTransitionDriver? { get set }
+  var tableContentSizeObserver: Foundation.NSKeyValueObservation? { get set }
+  var presentationMaxHeight: CoreFoundation.CGFloat { get }
+  func updateHeightView(tableHeight: CoreFoundation.CGFloat)
+  func animationController(forPresented presented: UIKit.UIViewController, presenting: UIKit.UIViewController, source: UIKit.UIViewController) -> (any UIKit.UIViewControllerAnimatedTransitioning)?
+  func animationController(forDismissed dismissed: UIKit.UIViewController) -> (any UIKit.UIViewControllerAnimatedTransitioning)?
+  func interactionControllerForDismissal(using animator: any UIKit.UIViewControllerAnimatedTransitioning) -> (any UIKit.UIViewControllerInteractiveTransitioning)?
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) final public class PaymentBottomSheetViewController : SDKForms.FormsBaseViewController {
+  @_Concurrency.MainActor(unsafe) final public var presentationMaxHeight: CoreFoundation.CGFloat {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) final public var driver: SDKForms.BottomSheetTransitionDriver? {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) final public var tableContentSizeObserver: Foundation.NSKeyValueObservation?
+  @_Concurrency.MainActor(unsafe) @objc override final public func loadView()
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+extension SDKForms.PaymentBottomSheetViewController : SDKForms.BottomSheetPresentable {
+  @_Concurrency.MainActor(unsafe) @objc final public func animationController(forPresented presented: UIKit.UIViewController, presenting: UIKit.UIViewController, source: UIKit.UIViewController) -> (any UIKit.UIViewControllerAnimatedTransitioning)?
+  @_Concurrency.MainActor(unsafe) @objc final public func animationController(forDismissed dismissed: UIKit.UIViewController) -> (any UIKit.UIViewControllerAnimatedTransitioning)?
+  @_Concurrency.MainActor(unsafe) @objc final public func interactionControllerForDismissal(using animator: any UIKit.UIViewControllerAnimatedTransitioning) -> (any UIKit.UIViewControllerInteractiveTransitioning)?
+  @_Concurrency.MainActor(unsafe) final public func updateHeightView(tableHeight: CoreFoundation.CGFloat)
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) final public class BottomSheetTransitionDelegate : ObjectiveC.NSObject, UIKit.UIViewControllerTransitioningDelegate {
+  @_Concurrency.MainActor(unsafe) @objc final public func presentationController(forPresented presented: UIKit.UIViewController, presenting: UIKit.UIViewController?, source: UIKit.UIViewController) -> UIKit.UIPresentationController?
+  @_Concurrency.MainActor(unsafe) @objc final public func animationController(forPresented presented: UIKit.UIViewController, presenting: UIKit.UIViewController, source: UIKit.UIViewController) -> (any UIKit.UIViewControllerAnimatedTransitioning)?
+  @_Concurrency.MainActor(unsafe) @objc final public func animationController(forDismissed dismissed: UIKit.UIViewController) -> (any UIKit.UIViewControllerAnimatedTransitioning)?
+  @_Concurrency.MainActor(unsafe) @objc final public func interactionControllerForDismissal(using animator: any UIKit.UIViewControllerAnimatedTransitioning) -> (any UIKit.UIViewControllerInteractiveTransitioning)?
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) final public class BottomSheetTransitionDriver : UIKit.UIPercentDrivenInteractiveTransition, UIKit.UIGestureRecognizerDelegate {
+  @_Concurrency.MainActor(unsafe) @objc override final public var wantsInteractiveStart: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor(unsafe) @objc final public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIKit.UIGestureRecognizer) -> Swift.Bool
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) final public class CoverVerticalDismissAnimatedTransitioning : ObjectiveC.NSObject, UIKit.UIViewControllerAnimatedTransitioning {
+  @_Concurrency.MainActor(unsafe) @objc final public func transitionDuration(using transitionContext: (any UIKit.UIViewControllerContextTransitioning)?) -> Foundation.TimeInterval
+  @_Concurrency.MainActor(unsafe) @objc final public func animateTransition(using transitionContext: any UIKit.UIViewControllerContextTransitioning)
+  @_Concurrency.MainActor(unsafe) @objc final public func interruptibleAnimator(using transitionContext: any UIKit.UIViewControllerContextTransitioning) -> any UIKit.UIViewImplicitlyAnimating
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) final public class CoverVerticalPresentAnimatedTransitioning : ObjectiveC.NSObject, UIKit.UIViewControllerAnimatedTransitioning {
+  @_Concurrency.MainActor(unsafe) @objc final public func transitionDuration(using transitionContext: (any UIKit.UIViewControllerContextTransitioning)?) -> Foundation.TimeInterval
+  @_Concurrency.MainActor(unsafe) @objc final public func animateTransition(using transitionContext: any UIKit.UIViewControllerContextTransitioning)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) final public class SelectedCardViewController : SDKForms.FormsBaseViewController {
+  @_Concurrency.MainActor(unsafe) convenience public init(paymentConfig: SDKForms.PaymentConfig?, card: SDKForms.Card?, callbackHandler: (any SDKForms.ResultCryptogramCallback<SDKForms.CryptogramData>)?)
+  @_Concurrency.MainActor(unsafe) @objc override final public func loadView()
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) final public class FormsPaymentView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @objc deinit
+}
+public struct BindingCardTableModel : Swift.Hashable {
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: SDKForms.BindingCardTableModel, b: SDKForms.BindingCardTableModel) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.URLSession {
+  public typealias ApiResponse = (data: Foundation.Data?, response: Foundation.URLResponse?, error: (any Swift.Error)?)
+  public func executeGet(urlString: Swift.String) -> Foundation.URLSession.ApiResponse
+  public func executePost(urlString: Swift.String, body: any Swift.Encodable) -> Foundation.URLSession.ApiResponse
+  public func executePostParams(urlString: Swift.String, paramBody: [Swift.String : Swift.String]) -> Foundation.URLSession.ApiResponse
+}
+extension SDKForms.CameraScannerOptions : Swift.Equatable {}
+extension SDKForms.CameraScannerOptions : Swift.Hashable {}
+extension SDKForms.CardDeleteOptions : Swift.Equatable {}
+extension SDKForms.CardDeleteOptions : Swift.Hashable {}
+extension SDKForms.CardSaveOptions : Swift.Equatable {}
+extension SDKForms.CardSaveOptions : Swift.Hashable {}
+extension SDKForms.HolderInputOptions : Swift.Equatable {}
+extension SDKForms.HolderInputOptions : Swift.Hashable {}
+extension SDKForms.PaymentDataStatus : Swift.Equatable {}
+extension SDKForms.PaymentDataStatus : Swift.Hashable {}
+extension SDKForms.Theme : Swift.Hashable {}
+extension SDKForms.Locales : Swift.Equatable {}
+extension SDKForms.Locales : Swift.Hashable {}
+extension SDKForms.Locales : Swift.RawRepresentable {}

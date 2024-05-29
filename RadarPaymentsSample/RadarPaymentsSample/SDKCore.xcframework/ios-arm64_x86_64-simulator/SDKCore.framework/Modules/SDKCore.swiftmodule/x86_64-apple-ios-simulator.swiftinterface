@@ -1,0 +1,205 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.9 (swiftlang-5.9.0.128.108 clang-1500.0.40.1)
+// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name SDKCore
+import Foundation
+import Foundation/*.Bundle*/
+import Foundation/*.ProcessInfo*/
+import Foundation/*.URL*/
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public protocol CryptogramCipher {
+  func encode(data: Swift.String, key: SDKCore.Key) throws -> Swift.String
+}
+final public class DefaultPaymentStringProcessor : SDKCore.PaymentStringProcessor {
+  public init()
+  final public func createPaymentString(order: Swift.String, timestamp: Swift.Int64, uuid: Swift.String, cardInfo: SDKCore.CoreCardInfo, registeredFrom: SDKCore.MSDKRegisteredFrom = .MSDK_CORE) -> Swift.String
+  @objc deinit
+}
+public enum CryptogramCipherError : Swift.Error {
+  case keyCreationFailed
+  case algorithmNotSupported
+  case encryptionFailed
+  public static func == (a: SDKCore.CryptogramCipherError, b: SDKCore.CryptogramCipherError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+final public class RSACryptogramCipher : SDKCore.CryptogramCipher {
+  public init()
+  final public func encode(data: Swift.String, key: SDKCore.Key) throws -> Swift.String
+  @objc deinit
+}
+public protocol PaymentStringProcessor {
+  func createPaymentString(order: Swift.String, timestamp: Swift.Int64, uuid: Swift.String, cardInfo: SDKCore.CoreCardInfo, registeredFrom: SDKCore.MSDKRegisteredFrom) -> Swift.String
+}
+public protocol LogInterface {
+  func log(class: Swift.AnyClass, tag: Swift.String, message: Swift.String, exception: (any Swift.Error)?)
+}
+@_hasMissingDesignatedInitializers public class Logger {
+  public static let shared: SDKCore.Logger
+  public static let TAG: Swift.String
+  public func addLogInterface(logger: any SDKCore.LogInterface)
+  public func log(classMethod: Swift.AnyClass, tag: Swift.String = TAG, message: Swift.String = "", exception: (any Swift.Error)? = nil)
+  @objc deinit
+}
+public struct BindingParams {
+  public let mdOrder: Swift.String
+  public let bindingId: Swift.String
+  public let cvc: Swift.String?
+  public let pubKey: Swift.String
+  public init(pubKey: Swift.String, bindingId: Swift.String, cvc: Swift.String? = nil, mdOrder: Swift.String = "")
+}
+public enum CardIdentifier : Swift.Codable, Swift.Equatable {
+  case cardPanIdentifier(Swift.String)
+  case cardBindingIdIdentifier(Swift.String)
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public static func == (a: SDKCore.CardIdentifier, b: SDKCore.CardIdentifier) -> Swift.Bool
+}
+public struct CoreCardInfo : Swift.Codable {
+  public let identifier: SDKCore.CardIdentifier
+  public let expDate: SDKCore.ExpiryDate?
+  public let cvv: Swift.String?
+  public let cardHolder: Swift.String?
+  public init(identifier: SDKCore.CardIdentifier, expDate: SDKCore.ExpiryDate? = nil, cvv: Swift.String? = nil, cardHolder: Swift.String? = nil)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct CardParams {
+  public let mdOrder: Swift.String
+  public let pan: Swift.String
+  public let cvc: Swift.String
+  public let expiryMMYY: Swift.String
+  public let cardholder: Swift.String?
+  public let pubKey: Swift.String
+  public init(pan: Swift.String, cvc: Swift.String, expiryMMYY: Swift.String, cardholder: Swift.String? = nil, mdOrder: Swift.String = "", pubKey: Swift.String)
+}
+public struct ExpiryDate : Swift.Codable, Swift.Hashable, Swift.Equatable {
+  public let expYear: Swift.Int
+  public let expMonth: Swift.Int
+  public func formatExpiryDate() -> Swift.String
+  public func format() -> Swift.String
+  public init(expYear: Swift.Int, expMonth: Swift.Int)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: SDKCore.ExpiryDate, b: SDKCore.ExpiryDate) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct Key : Swift.Equatable {
+  public let value: Swift.String
+  public let `protocol`: Swift.String
+  public var expiration: Swift.Int64
+  public init(value: Swift.String, protocol: Swift.String, expiration: Swift.Int64)
+  public static func == (a: SDKCore.Key, b: SDKCore.Key) -> Swift.Bool
+}
+public enum MSDKRegisteredFrom : Swift.String, Swift.RawRepresentable, Swift.Codable, Swift.Equatable {
+  case MSDK_CORE
+  case MSDK_FORMS
+  case MSDK_PAYMENT
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum ParamField : Swift.Error {
+  case UNKNOWN
+  case PAN
+  case CVC
+  case EXPIRY
+  case CARDHOLDER
+  case BINDING_ID
+  case MD_ORDER
+  case PUB_KEY
+  public static func == (a: SDKCore.ParamField, b: SDKCore.ParamField) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public class SdkCore {
+  public init()
+  public func generateWithCard(params: SDKCore.CardParams, timestamp: Foundation.TimeInterval = Date().timeIntervalSince1970, registeredFrom: SDKCore.MSDKRegisteredFrom = .MSDK_CORE) -> SDKCore.TokenResult
+  public func generateInstanceWithCard(params: SDKCore.CardParams, timestamp: Foundation.TimeInterval = Date().timeIntervalSince1970, registeredFrom: SDKCore.MSDKRegisteredFrom = .MSDK_CORE) -> SDKCore.TokenResult
+  public func generateWithBinding(params: SDKCore.BindingParams, timestamp: Foundation.TimeInterval = Date().timeIntervalSince1970, registeredFrom: SDKCore.MSDKRegisteredFrom = .MSDK_CORE) -> SDKCore.TokenResult
+  public func generateInstanceWithBinding(params: SDKCore.BindingParams, timestamp: Foundation.TimeInterval = Date().timeIntervalSince1970, registeredFrom: SDKCore.MSDKRegisteredFrom = .MSDK_CORE) -> SDKCore.TokenResult
+  public func prepareToken(mdOrder: Swift.String = "", cardInfo: SDKCore.CoreCardInfo, pubKey: Swift.String, timestamp: Foundation.TimeInterval, registeredFrom: SDKCore.MSDKRegisteredFrom = .MSDK_CORE) -> SDKCore.TokenResult
+  public static func getSDKVersion() -> Swift.String
+  @objc deinit
+}
+public struct TokenResult {
+  public var token: Swift.String?
+  public var errors: [SDKCore.ParamField : Swift.String]
+  public init(token: Swift.String?)
+  public init(errors: Swift.Dictionary<SDKCore.ParamField, Swift.String>)
+}
+extension Foundation.Bundle {
+  public static var sdkCoreBundle: Foundation.Bundle {
+    get
+  }
+}
+extension Swift.String {
+  public func digitsOnly(maxLength: Swift.Int? = nil) -> Swift.String
+  public func take(_ count: Swift.Int) -> Swift.String
+  public func takeLast(_ count: Swift.Int) -> Swift.String
+  public func toIntOrNil() -> Swift.Int?
+  public func toRegex(options: Foundation.NSRegularExpression.Options = []) -> Foundation.NSRegularExpression
+  public func pemKeyContent() -> Swift.String
+  public func toExpDate() throws -> SDKCore.ExpiryDate
+  public func parseColor() -> UIKit.UIColor?
+  public func noSpaces(maxLength: Swift.Int? = nil) -> Swift.String
+}
+extension Swift.String {
+  public var localized: Swift.String {
+    get
+  }
+  public static func cardIncorrectCVC() -> Swift.String
+  public static func cardIncorrectLength() -> Swift.String
+  public static func cardIncorrectNumber() -> Swift.String
+  public static func cardIncorrectExpiry() -> Swift.String
+  public static func cardIncorrectCardHolder() -> Swift.String
+  public static func orderIncorrectLength() -> Swift.String
+  public static func bindingIncorrectLength() -> Swift.String
+  public static func pubKeyRequired() -> Swift.String
+  public static func bindingRequired() -> Swift.String
+  public static func bindingIncorrect() -> Swift.String
+}
+@_hasMissingDesignatedInitializers public class BaseValidator<DATA> {
+  public func validate(data: DATA) -> SDKCore.ValidationResult
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class CardCodeValidator : SDKCore.BaseValidator<Swift.String> {
+  public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class CardExpiryValidator : SDKCore.BaseValidator<Swift.String> {
+  public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class CardHolderValidator : SDKCore.BaseValidator<Swift.String> {
+  public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class CardNumberValidator : SDKCore.BaseValidator<Swift.String> {
+  public init()
+  @objc deinit
+}
+public struct ValidationResult {
+  public let isValid: Swift.Bool
+  public let errorCode: Swift.String?
+  public let errorMessage: Swift.String?
+  public static var VALID: SDKCore.ValidationResult
+  public static func error(errorCode: Swift.String, errorMessage: Swift.String) -> SDKCore.ValidationResult
+}
+extension SDKCore.CryptogramCipherError : Swift.Equatable {}
+extension SDKCore.CryptogramCipherError : Swift.Hashable {}
+extension SDKCore.MSDKRegisteredFrom : Swift.Hashable {}
+extension SDKCore.ParamField : Swift.Equatable {}
+extension SDKCore.ParamField : Swift.Hashable {}

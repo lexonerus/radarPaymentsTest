@@ -1,0 +1,139 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.9 (swiftlang-5.9.0.128.108 clang-1500.0.40.1)
+// swift-module-flags: -target arm64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name SDKPayment
+import Foundation
+import PassKit
+import SDKCore
+import SDKForms
+import Swift
+import ThreeDSSDK
+import UIKit
+import WebKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public struct ApplePaySettings : Swift.Codable {
+  public init(merchantId: Swift.String, availablePaymentSystems: [SDKPayment.PaymentSystem] = PaymentSystem.allCases, countryCode: Swift.String = "RU", summaryItems: [SDKPayment.ApplePaySummaryItem])
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct ApplePaySummaryItem : Swift.Codable {
+  public init(label: Swift.String, amount: Swift.Double)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct BindingItem : Swift.Codable {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public enum PaymentSystem : Swift.String, Swift.Codable, Swift.CaseIterable {
+  case visa
+  case masterCard
+  case jcb
+  case interac
+  case discover
+  case amex
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [SDKPayment.PaymentSystem]
+  public typealias RawValue = Swift.String
+  public static var allCases: [SDKPayment.PaymentSystem] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@_inheritsConvenienceInitializers final public class SDKAlreadyPaymentException : SDKForms.SDKException {
+  override public init(message: Swift.String? = nil, cause: (any Swift.Error)? = nil)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers final public class SDKCryptogramException : SDKForms.SDKException {
+  override public init(message: Swift.String? = nil, cause: (any Swift.Error)? = nil)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers final public class SDKDeclinedException : SDKForms.SDKException {
+  override public init(message: Swift.String? = nil, cause: (any Swift.Error)? = nil)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers final public class SDKNotConfigureException : SDKForms.SDKException {
+  override public init(message: Swift.String? = nil, cause: (any Swift.Error)? = nil)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers final public class SDKOrderNotExistException : SDKForms.SDKException {
+  override public init(message: Swift.String? = nil, cause: (any Swift.Error)? = nil)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers final public class SDKPaymentApiException : SDKForms.SDKException {
+  override public init(message: Swift.String? = nil, cause: (any Swift.Error)? = nil)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers final public class SDKTransactionException : SDKForms.SDKException {
+  override public init(message: Swift.String? = nil, cause: (any Swift.Error)? = nil)
+  @objc deinit
+}
+public protocol CardFormDelegate {
+  func openBottomSheet(mdOrder: Swift.String, bindingEnabled: Swift.Bool, bindingCards: [SDKPayment.BindingItem], cvcNotRequired: Swift.Bool, bindingDeactivationEnabled: Swift.Bool, applePayPaymentConfig: SDKForms.ApplePayPaymentConfig?) throws
+}
+public struct PaymentResult {
+  public let mdOrder: Swift.String
+  public var isSuccess: Swift.Bool
+  public let exception: SDKForms.SDKException?
+}
+public struct SDKPaymentConfig : Swift.Codable {
+  public init(baseURL: Swift.String, use3DSConfig: SDKPayment.Use3DSConfig, keyProviderUrl: Swift.String, applePaySettings: SDKPayment.ApplePaySettings? = nil)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum Use3DSConfig : Swift.Codable {
+  case noUse3ds2sdk
+  case use3ds2sdk(dsRoot: Swift.String)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct WebChallengeParam {
+}
+public protocol PaymentManager {
+  func checkout(order: Swift.String) throws
+  func finishWithCheckOrderStatus(exception: SDKForms.SDKException?) throws
+}
+final public class PaymentManagerImpl : SDKPayment.PaymentManager {
+  public init(paymentQueue: Dispatch.DispatchQueue, cardFormDelegate: any SDKPayment.CardFormDelegate, threeDS2WebFormDelegate: any SDKPayment.ThreeDS2WebFormDelegate, threeDS2SDKFormDelegate: any SDKPayment.ThreeDS2SDKFormDelegate, viewControllerDelegate: any SDKPayment.ViewControllerDelegate)
+  final public func checkout(order: Swift.String) throws
+  final public func finishWithCheckOrderStatus(exception: SDKForms.SDKException? = nil) throws
+  @objc deinit
+}
+public protocol ThreeDS2SDKFormDelegate {
+  func initThreeDS2Service(threeDS2Service: any ThreeDSSDK.ThreeDS2Service) throws
+  func openChallengeFlow(transaction: (any ThreeDSSDK.Transaction)?, challengeParameters: ThreeDSSDK.ChallengeParameters, challengeStatusReceiver: any ThreeDSSDK.ChallengeStatusReceiver) throws
+  func cleanup(transaction: (any ThreeDSSDK.Transaction)?, threeDS2Service: any ThreeDSSDK.ThreeDS2Service) throws
+}
+public protocol ThreeDS2WebFormDelegate {
+  func openWebChallenge(webChallengeParam: SDKPayment.WebChallengeParam)
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) final public class ViewController3DS2WebChallenge : UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) convenience public init(webChallengeParam: SDKPayment.WebChallengeParam, viewControllerDelegate: (any SDKPayment.ViewControllerDelegate)?)
+  @_Concurrency.MainActor(unsafe) @objc override final public func loadView()
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+extension SDKPayment.ViewController3DS2WebChallenge : WebKit.WKNavigationDelegate {
+  @_Concurrency.MainActor(unsafe) @objc final public func webView(_ webView: WebKit.WKWebView, decidePolicyFor navigationAction: WebKit.WKNavigationAction, decisionHandler: @escaping (WebKit.WKNavigationActionPolicy) -> Swift.Void)
+}
+public protocol ViewControllerDelegate : AnyObject {
+  func finishWithResult(paymentData: SDKPayment.PaymentResult)
+  func getPaymentConfig() -> SDKPayment.SDKPaymentConfig
+}
+@_hasMissingDesignatedInitializers final public class SdkPayment {
+  public static let shared: SDKPayment.SdkPayment
+  public static func initialize(sdkPaymentConfig: SDKPayment.SDKPaymentConfig) -> SDKPayment.SdkPayment
+  final public func sdkPaymnetConfig() throws -> SDKPayment.SDKPaymentConfig
+  final public func checkoutWithBottomSheet(controller: UIKit.UINavigationController, mdOrder: Swift.String, callbackHandler: any SDKForms.ResultPaymentCallback<SDKPayment.PaymentResult>)
+  public static func getSDKVersion() -> Swift.String
+  @objc deinit
+}
+extension SDKPayment.PaymentSystem : Swift.Equatable {}
+extension SDKPayment.PaymentSystem : Swift.Hashable {}
+extension SDKPayment.PaymentSystem : Swift.RawRepresentable {}
